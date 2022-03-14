@@ -1,0 +1,224 @@
+---
+title: "Project 2A Draft"
+author: "Elissa Heredia"
+date: "3/13/2022"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+***Introduction***
+
+**Scientific Question**
+
+Does the SARS-CoV-2 virus replicase polyprotein 1ab 5R7Y (P0DTD1), that fights against the human immune system, have conserved regions shared with similar functioning proteins of other zoonotic viruses such as the phospohoprotein 6UEB (P16286) of the Rabies lyssavirus, the replicase polyprotein 1ab 4WUR (K9N7C7) of the MERS-CoV, and the genome polyprotein 2OY0 (Q9Q6P4) of the West Nile Virus? 
+
+**Background**
+
+Often when viruses attack a host, there is an immune response that tries to get rid of the virus as fast as possible.  However, it sometimes takes longer for host immune systems to get rid of the virus.  The SARS-CoV-2 zoonotic virus is a recent example of this phenomenon.  I wanted to find out how a virus is able to hold out against the human immune system.  I found a protein that SARS-CoV-2 utilizes to fight against the human immune system called replicase polyprotein 1ab 5R7Y (Alhammad 2020).  This protein fights against the human immune system by responding to the initial immune response, allowing for the virus to replicate and spread (Alhammad 2020). The next protein chosen is the replicase polyprotein 1ab 4WUR (K9N7C7) of the MERS-CoV.  MERS_CoV is another coronavirus that infects humans, however, it originated in the Middle East and is not as infectious as SARS-CoV-2 (Jamies 2020).  This protein also fights against the human immune system, but it does so by constantly reproducing more viral cells that would eventually over power the immune system if allowed to go out of control (Chu 2014).  The next protein chosen is the phospohoprotein 6UEB (P16286) of the Rabies lyssavirus.  This virus is known to pass from animals to people very easily and is one that many people look out for in their pets.  This virus uses its fighting protein to not only interfere with the initial immune response to infection, but by also altering immune response for its own benefit (Scott 2016).  The protein of the Rabies virus essentially distracts the immune system while the virus continues to replicate and spread (Scott 2016).  The final protein being compared is  the genome polyprotein 2OY0 (Q9Q6P4) of the West Nile Virus.  This protein first depletes IFNAR1 so that the virus can continue to replicate and spread (Evans 2011).  The protein also hijacks host cells JAK-STAT signaling pathway to suppress the immune system since this pathway is important for immune system response to infection (Keller 2006).  
+
+All of these viruses and their proteins were chosen because they are all zoonotic viruses, they originated in animals and evolved to infect humans.  MERS-CoV is the closest relation to SARS-CoV-2 since they are both betacoronaviruses (Jamies 2020).  The Rabies Virus and West Vile Virus were chosen due to how well known they are.  The Rabies Virus is one we are often told to watch out for while the West Nile Virus has been reported on sufficiently throughout the years.
+
+**Scientific Hypothesis**
+
+If SARS-CoV-2 utilizes replicase polyprotein 1ab 5R7Y (P0DTD1) against the human immune system that has conserved regions shared among the phospohoprotein 6UEB (P16286) of the rabies lyssavirus, the replicase polyprotein 1ab 4WUR (K9N7C7) of the MERS-CoV, and the genome polyprotein 2OY0 (Q9Q6P4) of the West Nile virus, then these conserved regions are important to the viruses for fighting against the human immune system.
+
+**Analyses Description**
+
+Here, I perform a multiple sequence alignment and use homology modeling to visualize where the four viral genomes align as well as where the four proteins of the zoonotic viruses align.  The multiple sequence alignments for both viral genomes and proteins are done to compare possible conserved regions between the viruses, but most importantly, possible conserved regions between the chosen viral proteins.  I visualize the multiple sequence alignments using a homology modeling video,  designed in PyMol, that goes into detail about specific regions of each protein that align with one another.  The homology model provides a visual to directly see where these proteins share possible conserved regions.  I also use a phylogenetic tree for both viral genomes and viral proteins to try to establish which ones are most closely related based upon the data I analyzed.  The phylogenetic tree is used as a neat way to organize all of the genomic data in a neat diagram that is easy to understand.
+
+For the following analysis, the genomic nucleotide sequence of each virus was downloaded as fasta files from the NCBI Database.  The viral proteins were chosen based upon a BLAST search which helped me pick the SARS-CoV and MERS-CoV proteins.  From there, I chose the Rabies virus and West Nile Virus proteins based upon the scientific papers I read.  The protein amino acid sequences were downloaded as fasta files from the UniProt SWISS protein database.  I also used the SWISS protein database to find the pdb files necessary for the homology modeling conducted in PyMol.
+
+***Packages Description***
+
+**BiocManager:** *This package is important for managing packages from the Bioconductor project.  The pacakge is important for statistical analysis and comprehension of genomic data.  To install this package, click on the 'Tools' tab at the top of R Studio.  Click on the 'Install Packages' tab.  Type 'BiocManager' into the packages search bar, then click install.  The package will install.  Once installed, use the library() function to load this package into your work space.*
+
+**seqinr:**  *This package contains tools necessary to retrieve and analyse biological sequences (DNA, RNA, proteins, etc.).  It is also useful to read in these sequences that are in a .'fasta' format.  To install this package, click on the 'Tools' tab at the top of R Studio.  Click on the 'Install Packages' tab.  Type 'seqinr' into the packages search bar, then click install.  The package will install.  Once installed, use the library() function to load this package into your work space.*
+
+**readr:** *This package provides a way for R studio to read rectangular data formatted in 'csv', 'tsv', 'fwf' and so on.  To install this package, click on the 'Tools' tab at the top of R Studio.  Click on the 'Install Packages' tab.  Type 'readr' into the packages search bar, then click install.  The package will install.  Once installed, use the library() function to load this package into your work space.*
+
+**msa:** *This package allows for R/Bioconductor to utilize the multiple sequence alignment algorithms to generate multiple sequence alignments of like sequences.  Trying the method described above will not work for this package, therefore, go to the internet and type in 'install msa into r'.  The following link (https://bioconductor.org/packages/release/bioc/html/msa.html) will appear.  Click on it, copy the code under the 'Installation' section and paste said code into a chunk.  Run this code and the pacakge will install.  Once installed, use the library() function to load this package into your work space.*
+
+**vembedr:** *This package allows one to embed a video into R Studio.  In order to install this package, as with the packages BiocManager, seqinr, and readr, click on the 'Tools' tab at the top of R Studio.  Click on the 'Install Packages' tab.  Type 'vembedr' into the packages search bar, then click install.  The package will install.  Once installed, use the library() function to load this package into your work space.*
+
+**ape:** *This package allows for the analysis pf phylogenetics and evolution as well as building phylogenetic trees for the necessary analysis.  In order to install this package, click on the 'Tools' tab at the top of R Studio.  Click on the 'Install Packages' tab.  Type 'ape' into the packages search bar, then click install.  The package will install.  Once installed, use the library() function to load this package into your work space.*
+
+```{r}
+library(BiocManager)
+library(seqinr)
+library(readr)
+library(msa)
+library(vembedr)
+```
+
+
+***Data from NCBI Database.***
+
+**CHUNK 1**
+
+*Below is the genomic nucleotide sequences read in as a fasta file to prepare genome data for Multiple Sequence Alignment.*
+
+
+```{r}
+#The nucleotide sequences of each genome is read in on one formated fasta file.
+all_Genomes <- read.fasta("Formatted_Four_Genomes_2.fasta")
+
+#Checking that the file is in the correct format for the analysis.
+summary(all_Genomes)
+```
+The above fasta file was first downloaded as individual fasta files from the NCBI database.  I compiled the files into one fasta file using Notebook editor and Word.
+
+***Data from UniProt-SWISS protein Database.***
+
+**CHUNK 2**
+
+*All 4 proteins of the chosen zoonotic viruses read in as one file.*
+
+```{r}
+#Read in file containing all 4 chosen proteins.
+all_pro_swiss <- read.fasta("Swiss_protein_data.fasta")
+
+#Check summary of file.
+summary(all_pro_swiss)
+```
+The above fasta file was searched using UniProt SWISS Protein database.  They were compiled into one file using the basket button on the database.
+
+***Multiple Sequence Alignments***
+
+**CHUNK 3**
+
+*Multiple Sequence Alignment for four zoonotic viruses whole genomes.*
+
+```{r}
+#Reading in the genome file directly as a string set of characters.
+genome_sequences <- readAAStringSet("Formatted_Four_Genomes.fasta")
+
+#Check the file is now a string set of characters.
+summary(genome_sequences)
+
+#Name the protein sequences so that it is easier to track which ones are which.
+names(genome_sequences) <- c("MERS_CoV", "West_Nile_Virus", "SARS_CoV_2", "Rabies")
+
+#Performing the whole genomes multiple sequence alignment.
+genome_alignment <- msa(genome_sequences)
+
+#View a summary of the multiple sequence alignment.
+genome_alignment
+
+#Show entire multiple sequence alignment for all four zoonotic viruses genomes.
+print(genome_alignment, show = "complete")
+```
+The code above produced a Multiple Sequence Alignment that aligned the nucleotide sequences of the 4 zoonotic viruses to each other.
+
+**CHUNK 4**
+
+*Performing Multiple Sequence Alignment on the selected protein of each zoonotic virus*
+
+```{r}
+#Directly reading in the protein file as a string set of characters.
+protein_sequences <- readAAStringSet("Swiss_protein_data.fasta")
+
+#Check the file is now a string set of characters.
+summary(protein_sequences)
+
+#Name the protein sequences so that it is easier to track which ones are which.
+names(protein_sequences) <- c("MERS_CoV_4wur", "SARS_CoV_2_5R7Y", "Rabies_6UEB", "West_Nile_Virus_2OY0")
+
+#Performing the whole genome sequence alignment.
+protein_alignment <- msa(protein_sequences)
+
+#View a summary of the sequence alignment
+protein_alignment
+
+#Show entire multiple sequence alignment for all four zoonotic viruses chosen proteins.
+print(protein_alignment, show = "complete")
+```
+The code above performs a Multiple Sequence Alignment on all four zoonotic viral proteins amino acid sequence.
+
+***Homology Modeling***
+
+**CHUNK 5**
+
+*Homology Modeling and Structural Bioinformatics of 4 chosen proteins. The majority of this work was completed using PyMol and uploading the video to YouTube.*
+
+```{r}
+#Embedding the YouTube video url into the work space.
+embed_url("https://youtu.be/ZP9Azo8JqnQ")
+```
+The code above embeds the homology modeling video into the work space.  In the video SARS-CoV-2 protein 5R7Y is represented by the baby blue color, MERS-CoV protein 4WUR is represented by the green color, Rabies protein 6UEB is represented by the pink color, and West Nile Virus protein 2OY0 is represented by the yellow color.  The first 10 seconds of the video rotate all four viral proteins around to show how they most likely would intertwine based upon their amino acid sequences.  The next 10 seconds remove the protein 2OY0 and 6UEB to focus on the amino acid alignment of 5R7Y and 4WUR proteins.  The bulk of the proteins 5R7Y and 4WUR are removed to emphasize the alignment region of the two proteins.  Yellow lines are added to draw attention to the amino acids 256-301 of SARS-CoV-2 5R7Y protein and the amino acids 171-230 of MERS_CoV 4WUR protein.  Next, the 5R7Y protein is removed and a different part of the 4WUR protein that aligns with the Rabies protein, 6UEB is added into the space.  The 6UEB protein that aligns with this region of 4WUR is added into the space.  Yellow lines appear to draw attention to the amino acids 99-179 of MERS-CoV 4WUR protein and 1,908-2,005 of Rabies 6UEB protein.  The portion of the 6UEB protein is removed and a different part of the 4WUR protein that aligns with the West Nile Virus protein, 2OY0 is added into the space. The 2OY0 protein that aligns with this region of 4WUR is added into the space.  Yellow lines appear to draw attention to the amino acids 141-244 of MERS-CoV 4WUR protein and 105-172 of Rabies 6UEB protein.  The portion of the 4WUR protein is removed and a different part of the 2OY0 protein that aligns with the SARS-CoV-2 protein, 5R7Y is added into the space. The 5R7Y protein that aligns with this region of 2OY0 is added into the space.  Yellow lines appear to draw attention to the amino acids 175-255 West Nile Virus 2OY0 protein and 11-102 SARS-CoV-2 5R7Y protein.  The portion of the 5R7Y protein is removed and a different part of the 2OY0 protein that aligns with the Rabies protein, 6UEB is added into the space. The 6UEB protein that aligns with this region of 2OY0 is added into the space.  Yellow lines appear to draw attention to the amino acids 30-263 of the West Nile Virus 2OY0 protein and 1,726-2,122 of the Rabies 6UEB protein.  The portion of the 2OY0 protein is removed and a different part of the 6UEB protein that aligns with the SARS-CoV-2 5R7Y protein is added into the space. The 5R7Y protein that aligns with this region of 6UEB is added into the space.  Yellow lines appear to draw attention to the amino acids 147-343 of the Rabies 6UEB protein and 122-293 of the SARS-CoV-2 5R7Y protein.  The yellow lines are removed and the portions of each protein that aligns with each other is added back one by one.  First the SARS-CoV_2 5r7Y protein that aligns with the West Nile Virus 2OY0 protein is added.  Then the Rabies 6UEB protein that aligns with the West Nile Virus 2OY0 protein is added.  Then the Rabies 6UEB protein that aligns with the MERS-CoV 4WUR protein is added.  Then the SARS-CoV-2 5R7Y protein that aligns with the MERS-CoV 4WUR protein is added.  Then the MERS-CoV 4WUR protein that aligns with the SARS-CoV-2 5R7Y protein is added.  Then the MERS-CoV 4WUR protein that aligns with the Rabies 6UEB protein is added.  Then the West Nile Virus 2OY0 protein that aligns with the MERS-CoV 4WUR protein is added. Then the MERS-CoV 4WUR protein that aligns with the West Nile Virus 2OY0 protein is added.  Then the West Nile Virus 2OY0 protein that aligns with the SARS-CoV-2 5R7Y protein is added.  Finally the West Nile Virus 2OY0 protein that aligns with the Rabies 6UEB protein is added. After all of the sections that align are added back into the space, the whole protein structures are added into the space.  First the whole structure of Rabies 6UEB protein is added.  Next the whole structure of the West Nile Virus 2OY0 protein is added.  Then the whole structure of SARS-CoV-2 5R7Y protein is added.  Finally the whole structure of MERS-CoV 4WUR protein is added.  The video ends back at the beginning with the structures of all four viral proteins entangled together.
+
+
+***Phylogenetic Clustering***
+
+**CHUNK 6**
+
+*Phylogenetic Clustering of all four zoonotic viruses whole genomes.*
+
+```{r}
+#Convert multiple genome alignment of whole genomes into a seqinr alignment.
+seq_genome_alignment <- msaConvert(genome_alignment, type = "seqinr::alignment")
+summary(seq_genome_alignment)
+
+#Generate a distance matrix using a function from the seqinr package.
+dist_genomes <- dist.alignment(seq_genome_alignment, "identity")
+as.matrix(dist_genomes)
+
+#This package is loaded in later since it masks parts of the seqinr package.
+library(ape)
+
+#Construct the phylogenetic tree using a function from the ape package.
+viruses_genome_tree <- nj(dist_genomes)
+plot <- plot(viruses_genome_tree, main = "Phylogenetic Tree of Zoonotic Viruses Genomes")
+```
+
+The code above organizes the genomic nucleotide sequences of SARS-CoV-2, MERS-CoV, Rabies and the West Nile Virus into a phylogenetic tree based upon the multiple sequence alignment.  Interestingly enough, according to this phylogenetic tree, SARS-CoV-2 and the Rabies virus have more shared sequences than MERS-CoV and SARS-CoV-2.  I initially thought that MERS-CoV and SARS-CoV-2 would have more in common because they are both betacoronaviruses.  With that being said, MERS-CoV still shares more similarities with SARS-CoV-2 and Rabies than West Nile Virus does.
+
+**CHUNK 7**
+
+*Phylogenetic clustering of selected protein sequences.*
+
+```{r}
+#Convert multiple sequence alignment of four proteins into a seqinr alignment.
+seq_protein_alignment <- msaConvert(protein_alignment, type = "seqinr::alignment")
+
+#Check that the sequence alignment converted in a seqinr alignment.
+summary(seq_protein_alignment)
+
+#Generate a distance matrix using a function from the seqinr package.
+dist_proteins <- dist.alignment(seq_protein_alignment, "identity")
+as.matrix(dist_proteins)
+
+#Construct the phylogenetic tree using a function from the ape package.
+viruses_protein_tree <- nj(dist_proteins)
+plot(viruses_protein_tree, main = "Phylogenetic Tree of Zoonotic Viruses Proteins")
+
+```
+
+The code above organizes the protein amino acid sequences of SARS-CoV-2, MERS-CoV, Rabies and the West Nile Virus proteins into a phylogenetic tree based upon their multiple sequence alignment.  As I initially thought, the SARS-CoV-2 5R7Y protein and the MERS-CoV 4WUR have more shared regions in common with each other than the other two zoonotic viruses proteins. Both MERS-CoV and SARS-CoV-2 are betacoronaviruses, therefore this observation about their proteins having shared regions is reasonable to expect.  With that being said, the Rabies 6UEB protein shares more similarities with SARS-CoV-2 and MERS-CoV proteins than the West Nile Virus 2OY0 protein does.  
+
+***Analysis of Results***
+
+Based upon the phylogenetic trees, homology modeling and multiple sequence alignment, I conclude that there are conserved regions among the SARS-CoV-2 5R7Y protein, MERS-CoV 4WUR protein, Rabies 6UEB protein, and the West Nile Virus 2OY0 protein.  These regions may be important in fighting against the human immune system since they are shared among the four viruses.  Interestingly, as stated in the background, each protein has a specific method in which it counters the immune system response, however, the basic structures utilized for these functions are relatively the same.  In both the homology modeling and multiple sequence alignments, you can see that some of these regions one protein (A) shares with another protein (B) are also included in that proteins (A) comparison against a different protein (C). (*Letters are added next to the proteins to allow for flow of what I am saying.*)  There are several examples of this, one being where a portion of the MERS-CoV 4WUR protein aligns with portions of the SARS-CoV-2 5R7Y protein and Rabies 6UEB protein.  When the 5R7Y and 6UEB proteins are compared, the region they share with 4WUR is also shared amongst the two of them.  Another interesting conclusion I came to is that the rabies virus is more closely related to the betacoronaviruses than the West Nile Virus.  In both phylogenetic trees, the West Nile Virus is the furthest away from the two betacoronaviruses.  Further investigation about this observation would have to be done to figure out how these viruses all evolved over the years and if the Rabies virus really is a distant relation to betacoronaviruses.
+
+***References***
+
+Alhammad, Yousef M., and Anthony R. Fehr. “The Viral Macrodomain Counters Host Antiviral ADP-Ribosylation.” Viruses, vol. 12, no. 4, 31 Mar. 2020, p. 384., https://www.mdpi.com/1999-4915/12/4/384. 
+
+Chen, Wei-Chen. A Quick Guide for the Phyclust Package. https://cran.r-project.org/web/packages/phyclust/vignettes/phyclust-guide.pdf. 
+
+Chu, Hin, et al. “Productive Replication of Middle East Respiratory Syndrome Coronavirus in Monocyte-Derived Dendritic Cells Modulates Innate Immune Response.” Virology, Academic Press, 7 Mar. 2014, https://www.sciencedirect.com/science/article/pii/S0042682214000622. 
+
+Evans, Jared D., et al. “West Nile Virus Infection Induces Depletion of IFNAR1 Protein Levels.” Viral Immunology, vol. 24, no. 4, 24 Aug. 2011, pp. 253–263., https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3154464/.
+
+Jaimes, Javier A., et al. “Phylogenetic Analysis and Structural Modeling of SARS-COV-2 Spike Protein Reveals an Evolutionary Distinct and Proteolytically Sensitive Activation Loop.” Journal of Molecular Biology, vol. 432, no. 10, 2020, pp. 3309–3325., https://doi.org/10.1016/j.jmb.2020.04.009. 
+
+Katsnelson, Alla. “What Do We Know about the Novel Coronavirus’s 29 Proteins?” Cen.acs.org, 1 Apr. 2020, https://cen.acs.org/biological-chemistry/infectious-disease/know-novel-coronaviruss-29-proteins/98/web/2020/04. 
+
+Keller, Brian C., et al. “Resistance to Alpha/Beta Interferon Is a Determinant of West Nile Virus Replication Fitness and Virulence.” Journal of Virology, vol. 80, no. 19, 1 Oct. 2006, pp. 9424–9434., https://journals.asm.org/doi/10.1128/JVI.00768-06. 
+
+Schork, Joachim. “Na Omit in R: 3 Examples for Na.omit (Data Frame, Vector &amp; by Column).” Statistics Globe, 10 Jan. 2022, https://statisticsglobe.com/na-omit-r-example/. 
+
+Scott, Terence, and Louis Nel. “Subversion of the Immune Response by Rabies Virus.” Viruses, vol. 8, no. 8, 19 Aug. 2016, p. 231., https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4997593/. 
+
+“Study Unveils How West Nile Virus Evades Immune Defenses, Points to Vaccine Development.” ScienceDaily, ScienceDaily, 5 Oct. 2006, https://www.sciencedaily.com/releases/2006/10/061004180053.htm. 
